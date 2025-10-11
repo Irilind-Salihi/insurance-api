@@ -3,6 +3,7 @@ package com.insurance.insurance_api.controller;
 
 import com.insurance.insurance_api.dto.request.CompanyRequest;
 import com.insurance.insurance_api.dto.request.PersonRequest;
+import com.insurance.insurance_api.entity.Client;
 import com.insurance.insurance_api.entity.Company;
 import com.insurance.insurance_api.entity.Person;
 import com.insurance.insurance_api.service.ClientService;
@@ -37,5 +38,10 @@ public class ClientController {
                 request.getEmail(),
                 request.getCompanyIdentifier()
         );
+    }
+
+    @GetMapping("/{id}")
+    public Client getClientById(@PathVariable Long id){
+        return clientService.getClientById(id);
     }
 }

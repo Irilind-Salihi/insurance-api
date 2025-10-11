@@ -16,7 +16,7 @@ public class Validator
     );
 
     public static void isValidISODate(String date) {
-        if (date == null || date.trim().isEmpty()) {
+        if (date == null || date.trim().isEmpty() || date.trim().equalsIgnoreCase("null")) {
             throw new IllegalArgumentException("Date cannot be null or empty");
         }
 

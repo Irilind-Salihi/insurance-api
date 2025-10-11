@@ -1,10 +1,13 @@
 package com.insurance.insurance_api.service;
 
+import com.insurance.insurance_api.entity.Client;
 import com.insurance.insurance_api.entity.Company;
 import com.insurance.insurance_api.entity.Person;
+import com.insurance.insurance_api.repository.ClientRepository;
 import com.insurance.insurance_api.repository.CompanyRepository;
 import com.insurance.insurance_api.repository.PersonRepository;
 import com.insurance.insurance_api.utils.Validator;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -14,10 +17,12 @@ public class ClientService {
 
     private final PersonRepository personRepository;
     private final CompanyRepository companyRepository;
+    private final ClientRepository clientRepository;
 
-    public ClientService(PersonRepository personRepository, CompanyRepository companyRepository) {
+    public ClientService(PersonRepository personRepository, CompanyRepository companyRepository, ClientRepository clientRepository) {
         this.personRepository = personRepository;
         this.companyRepository = companyRepository;
+        this.clientRepository = clientRepository;
     }
 
     public Person createPerson(String name, String phone, String email, LocalDate birthdate) {
@@ -31,7 +36,6 @@ public class ClientService {
 
         person.setName(name);
         person.setPhone(phone);
-
         person.setEmail(email);
         person.setBirthdate(birthdate);
 
@@ -51,5 +55,10 @@ public class ClientService {
 
         return companyRepository.save(company);
 
+    }
+
+    public Client getClientById(Long clientId) {
+        return clientRepository.findById(clientId)
+                .orElseThrow(() -> new EntityNotFoundException("Client with id " + clientId + " not found"));
     }
 }
