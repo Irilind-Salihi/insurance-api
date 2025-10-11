@@ -1,10 +1,13 @@
 package com.insurance.insurance_api.service;
 
+import com.insurance.insurance_api.dto.request.ContractPatchRequest;
 import com.insurance.insurance_api.dto.request.ContractRequest;
 import com.insurance.insurance_api.entity.Client;
 import com.insurance.insurance_api.entity.Contract;
 import com.insurance.insurance_api.repository.ContractRepository;
 import com.insurance.insurance_api.utils.Validator;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,6 +21,11 @@ public class ContractService {
 
     public ContractService(ContractRepository contractRepository) {
         this.contractRepository = contractRepository;
+    }
+
+    public Contract getContractById(Long contractId) {
+        return contractRepository.findById(contractId)
+                .orElseThrow(() -> new EntityNotFoundException("Contract with id " + contractId + " not found"));
     }
 
     public Contract createContract(Client client, ContractRequest contractRequest) {
@@ -45,6 +53,19 @@ public class ContractService {
         }
 
         return contractRepository.save(contract);
+    }
+
+    public void updateContract(ContractPatchRequest contractPatchRequest) {
+        Contract contract = getContractById(contractPatchRequest.getContractId());
+
+        Validator.isValidAmount(contractPatchRequest.getNewAmount());
+        contract.setCostAmount(contractPatchRequest.getNewAmount());
+
+        LocalDate updatedDate = LocalDate.now();
+        Validator.isValidISODate(updatedDate.toString());
+        contract.setUpdateDate(updatedDate);
+
+        contractRepository.save(contract);
     }
 
 

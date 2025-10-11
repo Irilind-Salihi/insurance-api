@@ -1,14 +1,12 @@
 package com.insurance.insurance_api.controller;
 
+import com.insurance.insurance_api.dto.request.ContractPatchRequest;
 import com.insurance.insurance_api.dto.request.ContractRequest;
 import com.insurance.insurance_api.entity.Client;
 import com.insurance.insurance_api.entity.Contract;
 import com.insurance.insurance_api.service.ClientService;
 import com.insurance.insurance_api.service.ContractService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/contracts")
@@ -22,10 +20,15 @@ public class ContractController {
         this.clientService = clientService;
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public Contract createContract(@RequestBody ContractRequest contractRequest) {
 
         Client client = clientService.getClientById(contractRequest.getId());
         return contractService.createContract(client, contractRequest);
+    }
+
+    @PatchMapping
+    public void patchContract(@RequestBody ContractPatchRequest contractPatchRequest) {
+        contractService.updateContract(contractPatchRequest);
     }
 }
