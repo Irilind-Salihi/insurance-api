@@ -18,18 +18,21 @@ public class Contract {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "contract_id", nullable = false)
+
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
-    @Column(nullable = false)
     @JsonIgnore
+    @Column(name = "update_date", nullable = false)
     private LocalDate updateDate;
 
+    @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
-    @Column(nullable = false)
+    @Column(name = "cost_amount", nullable = false)
     private double costAmount;
 
     @ManyToOne(cascade = CascadeType.PERSIST)

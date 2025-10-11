@@ -19,11 +19,11 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
-    @Column(nullable = false)
+    @Column(name = "phone", nullable = false)
     private String email;
-    @Column(nullable = false)
+    @Column(name = "email", nullable = false)
     private String phone;
 
 
