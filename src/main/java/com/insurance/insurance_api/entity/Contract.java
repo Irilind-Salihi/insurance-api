@@ -6,11 +6,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "contracts")
+@Table(
+        name = "contracts",
+        indexes = {
+                @Index(name = "idx_contract_client_id", columnList = "client_id"),
+                @Index(name = "idx_contract_end_date", columnList = "end_date"),
+                @Index(name = "idx_contract_client_end_date", columnList = "client_id, end_date")
+        }
+)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,7 +41,7 @@ public class Contract {
     private LocalDate endDate;
 
     @Column(name = "cost_amount", nullable = false)
-    private double costAmount;
+    private BigDecimal costAmount;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore

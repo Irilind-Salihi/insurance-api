@@ -8,6 +8,7 @@ import com.insurance.insurance_api.service.ClientService;
 import com.insurance.insurance_api.service.ContractService;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -45,5 +46,10 @@ public class ContractController {
     @GetMapping("/active/{client_id}/filtered")
     public List<Contract> getFilteredActiveContractByClientIdAndUpdateDate(@PathVariable("client_id") Long clientId, @RequestParam("update_date") LocalDate updateDate) {
         return contractService.getActiveContractByClientIdAndUpdateDate(clientId, updateDate);
+    }
+
+    @GetMapping("/active/{client_id}/sum")
+    public BigDecimal sumActiveContractsForClient(@PathVariable("client_id") Long clientId) {
+        return contractService.sumActiveContractsForClient(clientId);
     }
 }

@@ -11,6 +11,7 @@ import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -44,6 +45,14 @@ public class ContractService {
 
         Validator.isValidISODate(updateDate.toString());
         return contractRepository.findActiveContractsByClientIdAndUpdateDate(clientId, updateDate);
+    }
+
+    public BigDecimal sumActiveContractsForClient(Long clientId) {
+        clientRepository.findById(clientId)
+                .orElseThrow(() -> new EntityNotFoundException("Client with id " + clientId + " not found"));
+
+        return contractRepository.sumActiveContractsForClient(clientId);
+
     }
 
     public Contract createContract(Client client, ContractRequest contractRequest) {
@@ -88,7 +97,6 @@ public class ContractService {
 
 
     public void endAllContractsForClient(Client client) {
-
         LocalDate todayDate = LocalDate.now();
 
         List<Contract> contracts = client.getContracts();

@@ -1,5 +1,6 @@
 package com.insurance.insurance_api.utils;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -46,9 +47,9 @@ public class Validator
         }
     }
 
-    public static void isValidAmount(Double costAmount) {
-        if (costAmount == null || costAmount <= 0) {
-            throw new IllegalArgumentException("Amount must be greater than zero");
+    public static void isValidAmount(BigDecimal costAmount) {
+        if (costAmount == null || costAmount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Amount cannot negative");
         }
         else if (!AMOUNT_PATTERN.matcher(costAmount.toString()).matches()) {
             throw new IllegalArgumentException("Amount is not valid");

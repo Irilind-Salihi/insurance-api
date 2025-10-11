@@ -3,6 +3,7 @@ package com.insurance.insurance_api.dto.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
@@ -17,5 +18,5 @@ public class ContractRequest {
     private LocalDate endDate;
 
     @JsonProperty("cost_amount")
-    private Double costAmount;
+    private BigDecimal costAmount;
 }
