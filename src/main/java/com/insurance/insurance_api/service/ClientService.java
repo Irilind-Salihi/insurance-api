@@ -4,6 +4,7 @@ import com.insurance.insurance_api.entity.Company;
 import com.insurance.insurance_api.entity.Person;
 import com.insurance.insurance_api.repository.CompanyRepository;
 import com.insurance.insurance_api.repository.PersonRepository;
+import com.insurance.insurance_api.utils.Validator;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,8 +22,16 @@ public class ClientService {
 
     public Person createPerson(String name, String phone, String email, LocalDate birthdate) {
         Person person = new Person();
+
+
+        Validator.isValidEmail(email);
+        Validator.isValidISODate(String.valueOf(birthdate));
+        Validator.isValidPhoneNumber(phone);
+
+
         person.setName(name);
         person.setPhone(phone);
+
         person.setEmail(email);
         person.setBirthdate(birthdate);
 
@@ -31,11 +40,16 @@ public class ClientService {
 
     public Company createCompany(String name, String phone, String email, String identifier ) {
         Company company = new Company();
+
+        Validator.isValidEmail(email);
+        Validator.isValidPhoneNumber(phone);
+
         company.setName(name);
         company.setPhone(phone);
         company.setEmail(email);
         company.setCompanyIdentifier(identifier);
 
         return companyRepository.save(company);
+
     }
 }
