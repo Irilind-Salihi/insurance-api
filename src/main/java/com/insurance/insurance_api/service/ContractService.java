@@ -102,8 +102,11 @@ public class ContractService {
         List<Contract> contracts = client.getContracts();
         for (Contract contract : contracts) {
             contract.setEndDate(todayDate);
+            contract.setClient(null);
             contractRepository.save(contract);
         }
     }
+
+
 
 }

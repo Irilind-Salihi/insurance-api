@@ -8,6 +8,8 @@ import com.insurance.insurance_api.entity.Client;
 import com.insurance.insurance_api.entity.Company;
 import com.insurance.insurance_api.entity.Person;
 import com.insurance.insurance_api.service.ClientService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,36 +23,48 @@ public class ClientController {
     }
 
     @GetMapping("/{client_id}")
-    public Client getClientById(@PathVariable("client_id")  Long clientId){
-        return clientService.getClientById(clientId);
+    public ResponseEntity<Client> getClientById(@PathVariable("client_id")  Long clientId){
+        Client client = clientService.getClientById(clientId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(client);
+
     }
 
     @PostMapping("/person/create")
-    public Person createPerson(@RequestBody PersonRequest personRequest){
-        return clientService.createPerson(
+    public ResponseEntity<Person> createPerson(@RequestBody PersonRequest personRequest){
+        Person person = clientService.createPerson(
                 personRequest.getName(),
                 personRequest.getPhone(),
                 personRequest.getEmail(),
                 personRequest.getBirthDate()
         );
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(person);
     }
 
     @PostMapping("/company/create")
-        public Company createCompany(@RequestBody CompanyRequest companyRequest){
-        return clientService.createCompany(
+    public ResponseEntity<Company> createCompany(@RequestBody CompanyRequest companyRequest){
+       Company company = clientService.createCompany(
                 companyRequest.getName(),
                 companyRequest.getPhone(),
                 companyRequest.getEmail()
         );
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(company);
+
     }
 
     @PatchMapping()
-    public void patchClient(@RequestBody ClientPatchRequest clientPatchRequest){
+    public ResponseEntity<Void> patchClient(@RequestBody ClientPatchRequest clientPatchRequest){
         clientService.patchClientById(clientPatchRequest);
+
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public void deleteClientById(@PathVariable Long id){
+    public ResponseEntity<Void> deleteClientById(@PathVariable Long id){
         clientService.deleteClientById(id);
+
+        return ResponseEntity.noContent().build();
     }
 }
