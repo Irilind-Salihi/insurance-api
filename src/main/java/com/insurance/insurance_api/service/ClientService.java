@@ -33,13 +33,13 @@ public class ClientService {
 
 
         Validator.isValidEmail(email);
-        Validator.isValidISODate(String.valueOf(birthdate));
         Validator.isValidPhoneNumber(phone);
+        Validator.isValidISODate(String.valueOf(birthdate));
 
 
         person.setName(name);
-        person.setPhone(phone);
         person.setEmail(email);
+        person.setPhone(phone);
         person.setBirthdate(birthdate);
 
         return personRepository.save(person);
@@ -52,8 +52,8 @@ public class ClientService {
         Validator.isValidPhoneNumber(phone);
 
         company.setName(name);
-        company.setPhone(phone);
         company.setEmail(email);
+        company.setPhone(phone);
         company.setCompanyIdentifier(identifier);
 
         return companyRepository.save(company);
@@ -63,7 +63,6 @@ public class ClientService {
     public Client getClientById(Long clientId) {
         return clientRepository.findById(clientId)
                 .orElseThrow(() -> new EntityNotFoundException("Client with id " + clientId + " not found"));
-
     }
 
     public void deleteClientById(Long clientId) {

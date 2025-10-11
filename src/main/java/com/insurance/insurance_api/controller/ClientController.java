@@ -19,6 +19,10 @@ public class ClientController {
         this.clientService = clientService;
     }
 
+    @GetMapping("/{id}")
+    public Client getClientById(@PathVariable Long id){
+        return clientService.getClientById(id);
+    }
 
     @PostMapping("/person/create")
     public Person createPerson(@RequestBody PersonRequest request){
@@ -38,11 +42,6 @@ public class ClientController {
                 request.getEmail(),
                 request.getCompanyIdentifier()
         );
-    }
-
-    @GetMapping("/{id}")
-    public Client getClientById(@PathVariable Long id){
-        return clientService.getClientById(id);
     }
 
     @DeleteMapping("/{id}")

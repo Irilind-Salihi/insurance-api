@@ -23,16 +23,19 @@ public class ContractService {
     public Contract createContract(Client client, ContractRequest contractRequest) {
 
         Contract contract= new Contract();
-        contract.setClient(client);
 
         LocalDate startDate = contractRequest.getStartDate() != null
                 ? contractRequest.getStartDate()
                 : LocalDate.now();
 
+        Validator.isValidAmount(contractRequest.getCostAmount());
         Validator.isValidISODate(startDate.toString());
-        contract.setStartDate(startDate);
 
+
+        contract.setStartDate(startDate);
         contract.setUpdateDate(startDate);
+        contract.setClient(client);
+        contract.setCostAmount(contractRequest.getCostAmount());
 
         LocalDate endDate = contractRequest.getEndDate();
         if (endDate != null) {
@@ -41,9 +44,6 @@ public class ContractService {
 
         }
 
-        Validator.isValidAmount(contractRequest.getCostAmount());
-        contract.setCostAmount(contractRequest.getCostAmount());
-
         return contractRepository.save(contract);
     }
 
@@ -51,6 +51,7 @@ public class ContractService {
     public void endAllContractsForClient(Client client) {
 
         LocalDate todayDate = LocalDate.now();
+
         List<Contract> contracts = client.getContracts();
         for (Contract contract : contracts) {
             contract.setEndDate(todayDate);
