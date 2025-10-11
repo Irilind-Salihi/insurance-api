@@ -4,10 +4,11 @@ import com.insurance.insurance_api.dto.request.ContractPatchRequest;
 import com.insurance.insurance_api.dto.request.ContractRequest;
 import com.insurance.insurance_api.entity.Client;
 import com.insurance.insurance_api.entity.Contract;
+import com.insurance.insurance_api.repository.ClientRepository;
 import com.insurance.insurance_api.repository.ContractRepository;
 import com.insurance.insurance_api.utils.Validator;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.cglib.core.Local;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,14 +19,31 @@ import java.util.List;
 public class ContractService {
 
     private final ContractRepository contractRepository;
+    private final ClientRepository clientRepository;
 
-    public ContractService(ContractRepository contractRepository) {
+    public ContractService(ContractRepository contractRepository, ClientRepository clientRepository) {
         this.contractRepository = contractRepository;
+        this.clientRepository = clientRepository;
     }
 
     public Contract getContractById(Long contractId) {
         return contractRepository.findById(contractId)
                 .orElseThrow(() -> new EntityNotFoundException("Contract with id " + contractId + " not found"));
+    }
+
+    public List<Contract> getActiveContractByClientId(Long clientId) {
+        clientRepository.findById(clientId)
+                .orElseThrow(() -> new EntityNotFoundException("Client with id " + clientId + " not found"));
+
+        return contractRepository.findActiveContractsByClientId(clientId);
+    }
+
+    public List<Contract> getActiveContractByClientIdAndUpdateDate(Long clientId, LocalDate updateDate) {
+        clientRepository.findById(clientId)
+                .orElseThrow(() -> new EntityNotFoundException("Client with id " + clientId + " not found"));
+
+        Validator.isValidISODate(updateDate.toString());
+        return contractRepository.findActiveContractsByClientIdAndUpdateDate(clientId, updateDate);
     }
 
     public Contract createContract(Client client, ContractRequest contractRequest) {

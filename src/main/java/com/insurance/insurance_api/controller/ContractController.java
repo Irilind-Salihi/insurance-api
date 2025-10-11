@@ -8,6 +8,9 @@ import com.insurance.insurance_api.service.ClientService;
 import com.insurance.insurance_api.service.ContractService;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/contracts")
 public class ContractController {
@@ -20,6 +23,8 @@ public class ContractController {
         this.clientService = clientService;
     }
 
+
+
     @PostMapping
     public Contract createContract(@RequestBody ContractRequest contractRequest) {
 
@@ -30,5 +35,15 @@ public class ContractController {
     @PatchMapping
     public void patchContract(@RequestBody ContractPatchRequest contractPatchRequest) {
         contractService.updateContract(contractPatchRequest);
+    }
+
+    @GetMapping("/active/{client_id}")
+    public List<Contract> getActiveContractByClientId(@PathVariable("client_id") Long clientId) {
+        return contractService.getActiveContractByClientId(clientId);
+    }
+
+    @GetMapping("/active/{client_id}/filtered")
+    public List<Contract> getFilteredActiveContractByClientIdAndUpdateDate(@PathVariable("client_id") Long clientId, @RequestParam("update_date") LocalDate updateDate) {
+        return contractService.getActiveContractByClientIdAndUpdateDate(clientId, updateDate);
     }
 }

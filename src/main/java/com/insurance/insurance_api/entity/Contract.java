@@ -29,7 +29,7 @@ public class Contract {
     @Column(name = "update_date", nullable = false)
     private LocalDate updateDate;
 
-    @Column(name = "end_date", nullable = false)
+    @Column(name = "end_date", nullable = true)
     private LocalDate endDate;
 
     @Column(name = "cost_amount", nullable = false)

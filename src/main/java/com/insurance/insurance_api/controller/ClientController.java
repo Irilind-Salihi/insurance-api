@@ -20,9 +20,9 @@ public class ClientController {
         this.clientService = clientService;
     }
 
-    @GetMapping("/{id}")
-    public Client getClientById(@PathVariable Long id){
-        return clientService.getClientById(id);
+    @GetMapping("/{client_id}")
+    public Client getClientById(@PathVariable("client_id")  Long clientId){
+        return clientService.getClientById(clientId);
     }
 
     @PostMapping("/person/create")
