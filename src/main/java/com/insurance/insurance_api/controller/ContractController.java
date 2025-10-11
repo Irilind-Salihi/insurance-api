@@ -6,6 +6,8 @@ import com.insurance.insurance_api.entity.Client;
 import com.insurance.insurance_api.entity.Contract;
 import com.insurance.insurance_api.service.ClientService;
 import com.insurance.insurance_api.service.ContractService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -27,29 +29,38 @@ public class ContractController {
 
 
     @PostMapping
-    public Contract createContract(@RequestBody ContractRequest contractRequest) {
+    public ResponseEntity<Contract> createContract(@RequestBody ContractRequest contractRequest) {
 
         Client client = clientService.getClientById(contractRequest.getId());
-        return contractService.createContract(client, contractRequest);
+        Contract contract = contractService.createContract(client, contractRequest);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(contract);
+
     }
 
     @PatchMapping
-    public void patchContract(@RequestBody ContractPatchRequest contractPatchRequest) {
+    public ResponseEntity<Void> patchContract(@RequestBody ContractPatchRequest contractPatchRequest) {
         contractService.updateContract(contractPatchRequest);
+
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/active/{client_id}")
-    public List<Contract> getActiveContractByClientId(@PathVariable("client_id") Long clientId) {
-        return contractService.getActiveContractByClientId(clientId);
+    public ResponseEntity<List<Contract>> getActiveContractByClientId(@PathVariable("client_id") Long clientId) {
+        List<Contract> contracts = contractService.getActiveContractByClientId(clientId);
+        return ResponseEntity.status(HttpStatus.OK).body(contracts);
+
     }
 
     @GetMapping("/active/{client_id}/filtered")
-    public List<Contract> getFilteredActiveContractByClientIdAndUpdateDate(@PathVariable("client_id") Long clientId, @RequestParam("update_date") LocalDate updateDate) {
-        return contractService.getActiveContractByClientIdAndUpdateDate(clientId, updateDate);
+    public ResponseEntity<List<Contract>> getFilteredActiveContractByClientIdAndUpdateDate(@PathVariable("client_id") Long clientId, @RequestParam("update_date") LocalDate updateDate) {
+        List<Contract> contracts = contractService.getActiveContractByClientIdAndUpdateDate(clientId, updateDate);
+        return ResponseEntity.status(HttpStatus.OK).body(contracts);
     }
 
     @GetMapping("/active/{client_id}/sum")
-    public BigDecimal sumActiveContractsForClient(@PathVariable("client_id") Long clientId) {
-        return contractService.sumActiveContractsForClient(clientId);
+    public ResponseEntity<BigDecimal> sumActiveContractsForClient(@PathVariable("client_id") Long clientId) {
+        BigDecimal sum = contractService.sumActiveContractsForClient(clientId);
+        return ResponseEntity.status(HttpStatus.OK).body(sum);
     }
 }

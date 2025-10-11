@@ -37,13 +37,13 @@ public class Contract {
     @Column(name = "update_date", nullable = false)
     private LocalDate updateDate;
 
-    @Column(name = "end_date", nullable = true)
+    @Column(name = "end_date")
     private LocalDate endDate;
 
     @Column(name = "cost_amount", nullable = false)
     private BigDecimal costAmount;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "client_id")
     private Client client;
