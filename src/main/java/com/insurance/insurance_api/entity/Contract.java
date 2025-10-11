@@ -1,31 +1,42 @@
 package com.insurance.insurance_api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "clients")
+@Table(name = "contracts")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Client {
+public class Contract {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)
-    private String name;
-    @Column(nullable = false)
-    private String phone;
-    @Column(nullable = false)
-    private String email;
+    private LocalDate startDate;
 
-    @OneToMany(mappedBy = "client")
-    private List<Contract>  contracts;
+    @Column(nullable = false)
+    private LocalDate updateDate;
+
+    private LocalDate endDate;
+
+    @Column(nullable = false)
+    private double costAmount;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "client_id")
+    private Client client;
+
+
+
+
 }

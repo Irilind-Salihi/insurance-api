@@ -11,9 +11,12 @@ public class Validator
             "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
     );
 
+
     private static final Pattern PHONE_PATTERN = Pattern.compile(
             "^\\+\\d{2,3}[\\s\\d]{6,14}$"
     );
+
+    private static final Pattern AMOUNT_PATTERN = Pattern.compile("^\\d+(\\.\\d{1,2})?$");
 
     public static void isValidISODate(String date) {
         if (date == null || date.trim().isEmpty() || date.trim().equalsIgnoreCase("null")) {
@@ -40,6 +43,24 @@ public class Validator
             throw new IllegalArgumentException("Phone cannot be null or empty");
         } else if (!PHONE_PATTERN.matcher(phone).matches()) {
             throw new IllegalArgumentException("Phone number isn't valid (Use country indicator)");
+        }
+    }
+
+    public static void isValidAmount(Double costAmount) {
+        if (costAmount == null || costAmount <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than zero");
+        }
+        else if (!AMOUNT_PATTERN.matcher(costAmount.toString()).matches()) {
+            throw new IllegalArgumentException("Amount is not valid");
+        }
+    }
+
+    public static void isValidEndDate(LocalDate startDate, LocalDate endDate) {
+        if (endDate == null && startDate == null) {
+            throw new IllegalArgumentException("startDate and endDate cannot be null");
+        }
+        else if (endDate != null && !endDate.isAfter(startDate)) {
+            throw new IllegalArgumentException("end date must be after start date");
         }
     }
 
