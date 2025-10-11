@@ -31,7 +31,7 @@ public class Contract {
     @Column(nullable = false)
     private double costAmount;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore
     @JoinColumn(name = "client_id")
     private Client client;

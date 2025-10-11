@@ -8,21 +8,19 @@ import com.insurance.insurance_api.utils.Validator;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Service
 public class ContractService {
 
-    private final ClientService clientService;
     private final ContractRepository contractRepository;
 
-    public ContractService(ClientService clientService, ContractRepository contractRepository) {
-        this.clientService = clientService;
+    public ContractService(ContractRepository contractRepository) {
         this.contractRepository = contractRepository;
     }
 
-    public Contract createContract(ContractRequest contractRequest) {
-        Client client = clientService.getClientById(contractRequest.getId());
+    public Contract createContract(Client client, ContractRequest contractRequest) {
 
         Contract contract= new Contract();
         contract.setClient(client);
@@ -47,6 +45,17 @@ public class ContractService {
         contract.setCostAmount(contractRequest.getCostAmount());
 
         return contractRepository.save(contract);
+    }
+
+
+    public void endAllContractsForClient(Client client) {
+
+        LocalDate todayDate = LocalDate.now();
+        List<Contract> contracts = client.getContracts();
+        for (Contract contract : contracts) {
+            contract.setEndDate(todayDate);
+            contractRepository.save(contract);
+        }
     }
 
 }

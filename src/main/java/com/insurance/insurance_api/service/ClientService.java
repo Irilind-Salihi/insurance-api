@@ -18,11 +18,14 @@ public class ClientService {
     private final PersonRepository personRepository;
     private final CompanyRepository companyRepository;
     private final ClientRepository clientRepository;
+    private final ContractService contractService;
 
-    public ClientService(PersonRepository personRepository, CompanyRepository companyRepository, ClientRepository clientRepository) {
+
+    public ClientService(PersonRepository personRepository, CompanyRepository companyRepository, ClientRepository clientRepository, ContractService contractService) {
         this.personRepository = personRepository;
         this.companyRepository = companyRepository;
         this.clientRepository = clientRepository;
+        this.contractService = contractService;
     }
 
     public Person createPerson(String name, String phone, String email, LocalDate birthdate) {
@@ -60,5 +63,14 @@ public class ClientService {
     public Client getClientById(Long clientId) {
         return clientRepository.findById(clientId)
                 .orElseThrow(() -> new EntityNotFoundException("Client with id " + clientId + " not found"));
+
+    }
+
+    public void deleteClientById(Long clientId) {
+        Client client = getClientById(clientId);
+
+        contractService.endAllContractsForClient(client);
+
+        clientRepository.delete(client);
     }
 }
