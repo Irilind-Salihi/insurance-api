@@ -1,6 +1,7 @@
 package com.insurance.insurance_api.controller;
 
 
+import com.insurance.insurance_api.dto.request.ClientPatchRequest;
 import com.insurance.insurance_api.dto.request.CompanyRequest;
 import com.insurance.insurance_api.dto.request.PersonRequest;
 import com.insurance.insurance_api.entity.Client;
@@ -25,23 +26,27 @@ public class ClientController {
     }
 
     @PostMapping("/person/create")
-    public Person createPerson(@RequestBody PersonRequest request){
+    public Person createPerson(@RequestBody PersonRequest personRequest){
         return clientService.createPerson(
-                request.getName(),
-                request.getPhone(),
-                request.getEmail(),
-                request.getBirthDate()
+                personRequest.getName(),
+                personRequest.getPhone(),
+                personRequest.getEmail(),
+                personRequest.getBirthDate()
         );
     }
 
     @PostMapping("/company/create")
-        public Company createCompany(@RequestBody CompanyRequest request){
+        public Company createCompany(@RequestBody CompanyRequest companyRequest){
         return clientService.createCompany(
-                request.getName(),
-                request.getPhone(),
-                request.getEmail(),
-                request.getCompanyIdentifier()
+                companyRequest.getName(),
+                companyRequest.getPhone(),
+                companyRequest.getEmail()
         );
+    }
+
+    @PatchMapping()
+    public void patchClient(@RequestBody ClientPatchRequest clientPatchRequest){
+        clientService.patchClientById(clientPatchRequest);
     }
 
     @DeleteMapping("/{id}")
