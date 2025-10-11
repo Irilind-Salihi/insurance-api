@@ -1,0 +1,47 @@
+{
+	"info": {
+		"_postman_id": "d8a483fb-07e8-4970-968a-3f35f139dd4d",
+		"name": "Insurance Api Collection",
+		"description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49197736",
+		"_collection_link": "https://irilind-salihi-p-4476903.postman.co/workspace/Irilind-Salihi's-Workspace~8acf05ef-89a8-4687-83c7-f80a9d5d95d2/collection/49197736-d8a483fb-07e8-4970-968a-3f35f139dd4d?action=share&source=collection_link&creator=49197736"
+	},
+	"item": [
+		{
+			"name": "Clients",
+			"item": [
+				{
+					"name": "Create Person",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Jason Smith\",\r\n    \"email\":\"jason@gmail.com\",\r\n    \"phone\":\"+336995599\",\r\n    \"birth_date\":\"2000-10-10\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{apiUrl}}client/person",
+							"host": [
+								"{{apiUrl}}client"
+							],
+							"path": [
+								"person"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contract",
+			"item": []
+		}
+	]
+}
