@@ -1,12 +1,10 @@
 package com.insurance.insurance_api.entity;
 
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -18,6 +16,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper = true)
 public class Person extends Client {
 
+    @Column(nullable = false)
     private LocalDate birthdate;
 
 }
