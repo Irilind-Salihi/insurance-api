@@ -56,7 +56,7 @@ public class Validator
 
     public static void isValidAmount(BigDecimal costAmount) {
         if (costAmount == null || costAmount.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Amount cannot negative");
+            throw new IllegalArgumentException("Amount cannot negative or null");
         }
         else if (!AMOUNT_PATTERN.matcher(costAmount.toString()).matches()) {
             throw new IllegalArgumentException("Amount is not valid");

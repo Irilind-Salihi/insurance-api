@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/contracts")
+@RequestMapping("/api/contract")
 public class ContractController {
 
     private final ContractService contractService;
@@ -24,25 +24,6 @@ public class ContractController {
     public ContractController(ContractService contractService, ClientService clientService) {
         this.contractService = contractService;
         this.clientService = clientService;
-    }
-
-
-
-    @PostMapping
-    public ResponseEntity<Contract> createContract(@RequestBody ContractRequest contractRequest) {
-
-        Client client = clientService.getClientById(contractRequest.getId());
-        Contract contract = contractService.createContract(client, contractRequest);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(contract);
-
-    }
-
-    @PatchMapping
-    public ResponseEntity<Void> patchContract(@RequestBody ContractPatchRequest contractPatchRequest) {
-        contractService.updateContract(contractPatchRequest);
-
-        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/active/{client_id}")
@@ -62,5 +43,21 @@ public class ContractController {
     public ResponseEntity<BigDecimal> sumActiveContractsForClient(@PathVariable("client_id") Long clientId) {
         BigDecimal sum = contractService.sumActiveContractsForClient(clientId);
         return ResponseEntity.status(HttpStatus.OK).body(sum);
+    }
+    @PostMapping
+    public ResponseEntity<Contract> createContract(@RequestBody ContractRequest contractRequest) {
+
+        Client client = clientService.getClientById(contractRequest.getId());
+        Contract contract = contractService.createContract(client, contractRequest);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(contract);
+
+    }
+
+    @PatchMapping
+    public ResponseEntity<Void> patchContract(@RequestBody ContractPatchRequest contractPatchRequest) {
+        contractService.updateContract(contractPatchRequest);
+
+        return ResponseEntity.noContent().build();
     }
 }
