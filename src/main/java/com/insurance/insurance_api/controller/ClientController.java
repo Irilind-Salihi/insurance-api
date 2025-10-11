@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/clients")
+@RequestMapping("/api/client")
 public class ClientController {
 
     private final ClientService clientService;
@@ -30,7 +30,7 @@ public class ClientController {
 
     }
 
-    @PostMapping("/person/create")
+    @PostMapping("/person")
     public ResponseEntity<Person> createPerson(@RequestBody PersonRequest personRequest){
         Person person = clientService.createPerson(
                 personRequest.getName(),
@@ -42,7 +42,7 @@ public class ClientController {
         return ResponseEntity.status(HttpStatus.CREATED).body(person);
     }
 
-    @PostMapping("/company/create")
+    @PostMapping("/company")
     public ResponseEntity<Company> createCompany(@RequestBody CompanyRequest companyRequest){
        Company company = clientService.createCompany(
                 companyRequest.getName(),

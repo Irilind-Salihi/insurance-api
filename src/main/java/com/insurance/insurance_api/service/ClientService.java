@@ -39,10 +39,10 @@ public class ClientService {
     public Person createPerson(String name, String phone, String email, LocalDate birthdate) {
         Person person = new Person();
 
-
+        Validator.isValidName(name);
         Validator.isValidEmail(email);
         Validator.isValidPhoneNumber(phone);
-        Validator.isValidISODate(String.valueOf(birthdate));
+        Validator.isValidISODate(birthdate);
 
 
         person.setName(name);

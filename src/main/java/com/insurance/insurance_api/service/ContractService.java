@@ -43,7 +43,7 @@ public class ContractService {
         clientRepository.findById(clientId)
                 .orElseThrow(() -> new EntityNotFoundException("Client with id " + clientId + " not found"));
 
-        Validator.isValidISODate(updateDate.toString());
+        Validator.isValidISODate(updateDate);
         return contractRepository.findActiveContractsByClientIdAndUpdateDate(clientId, updateDate);
     }
 
@@ -64,7 +64,7 @@ public class ContractService {
                 : LocalDate.now();
 
         Validator.isValidAmount(contractRequest.getCostAmount());
-        Validator.isValidISODate(startDate.toString());
+        Validator.isValidISODate(startDate);
 
 
         contract.setStartDate(startDate);
@@ -89,7 +89,7 @@ public class ContractService {
         contract.setCostAmount(contractPatchRequest.getNewAmount());
 
         LocalDate updatedDate = LocalDate.now();
-        Validator.isValidISODate(updatedDate.toString());
+        Validator.isValidISODate(updatedDate);
         contract.setUpdateDate(updatedDate);
 
         contractRepository.save(contract);

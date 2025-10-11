@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @Data
 public class PersonRequest
 {
-    @JsonProperty("nqmd")
+    @JsonProperty("name")
     private String name;
 
     @JsonProperty("email")

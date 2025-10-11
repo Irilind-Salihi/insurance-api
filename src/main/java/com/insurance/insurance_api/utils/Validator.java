@@ -19,15 +19,22 @@ public class Validator
 
     private static final Pattern AMOUNT_PATTERN = Pattern.compile("^\\d+(\\.\\d{1,2})?$");
 
-    public static void isValidISODate(String date) {
-        if (date == null || date.trim().isEmpty() || date.trim().equalsIgnoreCase("null")) {
+    public static void isValidISODate(LocalDate date) {
+        String dateToString = String.valueOf(date);
+        if (dateToString == null || dateToString.trim().isEmpty() || dateToString.trim().equalsIgnoreCase("null")) {
             throw new IllegalArgumentException("Date cannot be null or empty");
         }
 
         try {
-            LocalDate.parse(date.trim(), DateTimeFormatter.ISO_LOCAL_DATE);
+            LocalDate.parse(dateToString.trim(), DateTimeFormatter.ISO_LOCAL_DATE);
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException("Date must be in ISO 8601 format (yyyy-MM-dd)");
+        }
+    }
+
+    public static void isValidName(String name) {
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("name cannot be null or empty");
         }
     }
 
