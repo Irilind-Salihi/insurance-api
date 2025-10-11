@@ -24,6 +24,7 @@ public class Contract {
     private LocalDate startDate;
 
     @Column(nullable = false)
+    @JsonIgnore
     private LocalDate updateDate;
 
     private LocalDate endDate;
