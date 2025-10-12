@@ -1,28 +1,24 @@
-# Use official Java 21 image
-FROM eclipse-temurin:21-jdk
-
-# Set working directory inside the container
+# ---- Stage 1: Build the app ----
+FROM maven:3.9.9-eclipse-temurin-21 AS build
 WORKDIR /app
 
-# Copy Maven wrapper & pom for dependency caching
-COPY mvnw .
-COPY .mvn .mvn
+# Copy pom.xml first to cache dependencies
 COPY pom.xml .
+RUN mvn dependency:go-offline
 
-# Make mvnw executable
-RUN chmod +x mvnw || true
-
-# Download dependencies (to speed up later builds)
-RUN ./mvnw dependency:go-offline -B || mvn dependency:go-offline -B
-
-# Copy source code
+# Copy the source code and build the JAR
 COPY src ./src
+RUN mvn clean package -DskipTests
 
-# Build the application (skip tests)
-RUN ./mvnw clean package -DskipTests || mvn clean package -DskipTests
+# ---- Stage 2: Run the app ----
+FROM openjdk:21-jdk-slim
+WORKDIR /app
 
-# Expose app port
+# Copy built JAR from the previous stage
+COPY --from=build /app/target/*.jar app.jar
+
+# Expose API port
 EXPOSE 8080
 
-# Run the built JAR
-CMD ["java", "-jar", "target/insurance-api-0.0.1-SNAPSHOT.jar"]
+# Run Spring Boot
+ENTRYPOINT ["java", "-jar", "app.jar"]

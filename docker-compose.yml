@@ -12,9 +12,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      # Persist DB data between restarts
       - db_data:/var/lib/postgresql/data
-      # Automatically import your SQL file on first DB initialization
       - ./src/main/resources/insurance_db_backup.sql:/docker-entrypoint-initdb.d/insurance_db_backup.sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U insurance_user -d insurance"]
