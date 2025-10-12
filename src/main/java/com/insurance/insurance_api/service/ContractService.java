@@ -9,6 +9,7 @@ import com.insurance.insurance_api.repository.ContractRepository;
 import com.insurance.insurance_api.utils.Validator;
 import jakarta.persistence.EntityNotFoundException;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -55,6 +56,7 @@ public class ContractService {
 
     }
 
+    @Transactional
     public Contract createContract(Client client, ContractRequest contractRequest) {
 
         Contract contract= new Contract();
@@ -82,6 +84,7 @@ public class ContractService {
         return contractRepository.save(contract);
     }
 
+    @Transactional
     public void updateContract(ContractPatchRequest contractPatchRequest) {
         Contract contract = getContractById(contractPatchRequest.getContractId());
 
@@ -96,15 +99,8 @@ public class ContractService {
     }
 
 
-    public void endAllContractsForClient(Client client) {
-        LocalDate todayDate = LocalDate.now();
-
-        List<Contract> contracts = client.getContracts();
-        for (Contract contract : contracts) {
-            contract.setEndDate(todayDate);
-            contract.setClient(null);
-            contractRepository.save(contract);
-        }
+    public void endAllContractsForClient(Long clientId) {
+        contractRepository.endAllContractsForClient(clientId);
     }
 
 

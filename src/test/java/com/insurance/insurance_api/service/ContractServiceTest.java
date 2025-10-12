@@ -136,25 +136,4 @@ public class ContractServiceTest {
 
         assertThrows(EntityNotFoundException.class, () -> contractService.updateContract(request));
     }
-
-    // ---------------- endAllContractsForClient ----------------
-    @Test
-    void endAllContractsForClientShouldSetEndDatesAndSave() {
-        Contract contract1 = MockValue.mockContract1();
-        Contract contract2 = MockValue.mockContract2();
-
-        Client client = MockValue.mockClient1();
-        client.setContracts(Arrays.asList(contract1, contract2));
-
-        contractService.endAllContractsForClient(client);
-
-        LocalDate today = LocalDate.now();
-        for (Contract c : client.getContracts()) {
-            assertEquals(today, c.getEndDate());
-            assertNull(c.getClient());
-        }
-
-        verify(contractRepository, times(2)).save(any(Contract.class));
-    }
-
 }
