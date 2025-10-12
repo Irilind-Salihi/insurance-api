@@ -21,7 +21,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: clients; Type: TABLE; Schema: public; Owner: testuser
+-- Name: clients; Type: TABLE; Schema: public; Owner: insurance_user
 --
 
 CREATE TABLE public.clients (
@@ -32,10 +32,10 @@ CREATE TABLE public.clients (
 );
 
 
-ALTER TABLE public.clients OWNER TO testuser;
+ALTER TABLE public.clients OWNER TO insurance_user;
 
 --
--- Name: clients_seq; Type: SEQUENCE; Schema: public; Owner: testuser
+-- Name: clients_seq; Type: SEQUENCE; Schema: public; Owner: insurance_user
 --
 
 CREATE SEQUENCE public.clients_seq
@@ -46,10 +46,10 @@ CREATE SEQUENCE public.clients_seq
     CACHE 1;
 
 
-ALTER TABLE public.clients_seq OWNER TO testuser;
+ALTER TABLE public.clients_seq OWNER TO insurance_user;
 
 --
--- Name: companies; Type: TABLE; Schema: public; Owner: testuser
+-- Name: companies; Type: TABLE; Schema: public; Owner: insurance_user
 --
 
 CREATE TABLE public.companies (
@@ -58,10 +58,10 @@ CREATE TABLE public.companies (
 );
 
 
-ALTER TABLE public.companies OWNER TO testuser;
+ALTER TABLE public.companies OWNER TO insurance_user;
 
 --
--- Name: contracts; Type: TABLE; Schema: public; Owner: testuser
+-- Name: contracts; Type: TABLE; Schema: public; Owner: insurance_user
 --
 
 CREATE TABLE public.contracts (
@@ -74,10 +74,10 @@ CREATE TABLE public.contracts (
 );
 
 
-ALTER TABLE public.contracts OWNER TO testuser;
+ALTER TABLE public.contracts OWNER TO insurance_user;
 
 --
--- Name: contracts_seq; Type: SEQUENCE; Schema: public; Owner: testuser
+-- Name: contracts_seq; Type: SEQUENCE; Schema: public; Owner: insurance_user
 --
 
 CREATE SEQUENCE public.contracts_seq
@@ -88,10 +88,10 @@ CREATE SEQUENCE public.contracts_seq
     CACHE 1;
 
 
-ALTER TABLE public.contracts_seq OWNER TO testuser;
+ALTER TABLE public.contracts_seq OWNER TO insurance_user;
 
 --
--- Name: persons; Type: TABLE; Schema: public; Owner: testuser
+-- Name: persons; Type: TABLE; Schema: public; Owner: insurance_user
 --
 
 CREATE TABLE public.persons (
@@ -100,10 +100,10 @@ CREATE TABLE public.persons (
 );
 
 
-ALTER TABLE public.persons OWNER TO testuser;
+ALTER TABLE public.persons OWNER TO insurance_user;
 
 --
--- Data for Name: clients; Type: TABLE DATA; Schema: public; Owner: testuser
+-- Data for Name: clients; Type: TABLE DATA; Schema: public; Owner: insurance_user
 --
 
 INSERT INTO public.clients (id, phone, name, email) VALUES
@@ -114,7 +114,7 @@ INSERT INTO public.clients (id, phone, name, email) VALUES
 
 
 --
--- Data for Name: companies; Type: TABLE DATA; Schema: public; Owner: testuser
+-- Data for Name: companies; Type: TABLE DATA; Schema: public; Owner: insurance_user
 --
 
 INSERT INTO public.companies (company_identifier, id) VALUES
@@ -122,7 +122,7 @@ INSERT INTO public.companies (company_identifier, id) VALUES
 ('VOL-2', 3);
 
 --
--- Data for Name: contracts; Type: TABLE DATA; Schema: public; Owner: testuser
+-- Data for Name: contracts; Type: TABLE DATA; Schema: public; Owner: insurance_user
 --
 
 DO $$
@@ -201,7 +201,7 @@ END $$;
 
 
 --
--- Data for Name: persons; Type: TABLE DATA; Schema: public; Owner: testuser
+-- Data for Name: persons; Type: TABLE DATA; Schema: public; Owner: insurance_user
 --
 
 INSERT INTO public.persons (birthdate, id) VALUES
@@ -209,21 +209,21 @@ INSERT INTO public.persons (birthdate, id) VALUES
 ('1994-10-10', 4);
 
 --
--- Name: clients_seq; Type: SEQUENCE SET; Schema: public; Owner: testuser
+-- Name: clients_seq; Type: SEQUENCE SET; Schema: public; Owner: insurance_user
 --
 
 SELECT pg_catalog.setval('public.clients_seq', 51, true);
 
 
 --
--- Name: contracts_seq; Type: SEQUENCE SET; Schema: public; Owner: testuser
+-- Name: contracts_seq; Type: SEQUENCE SET; Schema: public; Owner: insurance_user
 --
 
 SELECT pg_catalog.setval('public.contracts_seq', 51, true);
 
 
 --
--- Name: clients clients_pkey; Type: CONSTRAINT; Schema: public; Owner: testuser
+-- Name: clients clients_pkey; Type: CONSTRAINT; Schema: public; Owner: insurance_user
 --
 
 ALTER TABLE ONLY public.clients
@@ -231,7 +231,7 @@ ALTER TABLE ONLY public.clients
 
 
 --
--- Name: companies companies_pkey; Type: CONSTRAINT; Schema: public; Owner: testuser
+-- Name: companies companies_pkey; Type: CONSTRAINT; Schema: public; Owner: insurance_user
 --
 
 ALTER TABLE ONLY public.companies
@@ -239,7 +239,7 @@ ALTER TABLE ONLY public.companies
 
 
 --
--- Name: contracts contracts_pkey; Type: CONSTRAINT; Schema: public; Owner: testuser
+-- Name: contracts contracts_pkey; Type: CONSTRAINT; Schema: public; Owner: insurance_user
 --
 
 ALTER TABLE ONLY public.contracts
@@ -247,7 +247,7 @@ ALTER TABLE ONLY public.contracts
 
 
 --
--- Name: persons persons_pkey; Type: CONSTRAINT; Schema: public; Owner: testuser
+-- Name: persons persons_pkey; Type: CONSTRAINT; Schema: public; Owner: insurance_user
 --
 
 ALTER TABLE ONLY public.persons
@@ -255,28 +255,28 @@ ALTER TABLE ONLY public.persons
 
 
 --
--- Name: idx_contract_client_end_date; Type: INDEX; Schema: public; Owner: testuser
+-- Name: idx_contract_client_end_date; Type: INDEX; Schema: public; Owner: insurance_user
 --
 
 CREATE INDEX idx_contract_client_end_date ON public.contracts USING btree (client_id, end_date);
 
 
 --
--- Name: idx_contract_client_id; Type: INDEX; Schema: public; Owner: testuser
+-- Name: idx_contract_client_id; Type: INDEX; Schema: public; Owner: insurance_user
 --
 
 CREATE INDEX idx_contract_client_id ON public.contracts USING btree (client_id);
 
 
 --
--- Name: idx_contract_end_date; Type: INDEX; Schema: public; Owner: testuser
+-- Name: idx_contract_end_date; Type: INDEX; Schema: public; Owner: insurance_user
 --
 
 CREATE INDEX idx_contract_end_date ON public.contracts USING btree (end_date);
 
 
 --
--- Name: companies fk268eoae5idwy775v5hcrs5d6t; Type: FK CONSTRAINT; Schema: public; Owner: testuser
+-- Name: companies fk268eoae5idwy775v5hcrs5d6t; Type: FK CONSTRAINT; Schema: public; Owner: insurance_user
 --
 
 ALTER TABLE ONLY public.companies
@@ -284,7 +284,7 @@ ALTER TABLE ONLY public.companies
 
 
 --
--- Name: persons fkmf0qfvutfttelwj4rj3ku81t6; Type: FK CONSTRAINT; Schema: public; Owner: testuser
+-- Name: persons fkmf0qfvutfttelwj4rj3ku81t6; Type: FK CONSTRAINT; Schema: public; Owner: insurance_user
 --
 
 ALTER TABLE ONLY public.persons
@@ -292,7 +292,7 @@ ALTER TABLE ONLY public.persons
 
 
 --
--- Name: contracts fkrqssit79jdlx2ch8ubajt6w4y; Type: FK CONSTRAINT; Schema: public; Owner: testuser
+-- Name: contracts fkrqssit79jdlx2ch8ubajt6w4y; Type: FK CONSTRAINT; Schema: public; Owner: insurance_user
 --
 
 ALTER TABLE ONLY public.contracts
