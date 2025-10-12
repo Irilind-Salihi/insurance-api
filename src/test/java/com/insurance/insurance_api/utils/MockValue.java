@@ -2,8 +2,10 @@ package com.insurance.insurance_api.utils;
 
 import com.insurance.insurance_api.entity.Client;
 import com.insurance.insurance_api.entity.Company;
+import com.insurance.insurance_api.entity.Contract;
 import com.insurance.insurance_api.entity.Person;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
 
@@ -74,5 +76,29 @@ public class MockValue {
         company.setCompanyIdentifier("XYZ-2");
         company.setContracts(Collections.emptyList());
         return company;
+    }
+
+
+    // ---------------- Contract ----------------
+    public static Contract mockContract1() {
+        Contract contract = new Contract();
+        contract.setId(1L);
+        contract.setClient(mockClient1());
+        contract.setCostAmount(new BigDecimal("500"));
+        contract.setStartDate(LocalDate.of(2025, 10, 1));
+        contract.setUpdateDate(LocalDate.of(2025, 10, 1));
+        contract.setEndDate(null);
+        return contract;
+    }
+
+    public static Contract mockContract2() {
+        Contract contract = new Contract();
+        contract.setId(2L);
+        contract.setClient(mockClient1());
+        contract.setCostAmount(new BigDecimal("1000"));
+        contract.setStartDate(LocalDate.of(2025, 9, 1));
+        contract.setUpdateDate(LocalDate.of(2025, 9, 1));
+        contract.setEndDate(null);
+        return contract;
     }
 }
