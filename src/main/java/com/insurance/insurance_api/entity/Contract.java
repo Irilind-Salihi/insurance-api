@@ -27,7 +27,6 @@ public class Contract {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "contract_id", nullable = false)
-
     private Long id;
 
     @Column(name = "start_date", nullable = false)

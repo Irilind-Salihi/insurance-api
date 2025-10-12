@@ -212,14 +212,14 @@ INSERT INTO public.persons (birthdate, id) VALUES
 -- Name: clients_seq; Type: SEQUENCE SET; Schema: public; Owner: insurance_user
 --
 
-SELECT pg_catalog.setval('public.clients_seq', 51, true);
+SELECT pg_catalog.setval('public.clients_seq', 4, true);
 
 
 --
 -- Name: contracts_seq; Type: SEQUENCE SET; Schema: public; Owner: insurance_user
 --
 
-SELECT pg_catalog.setval('public.contracts_seq', 51, true);
+SELECT pg_catalog.setval('public.contracts_seq', 20055, true);
 
 
 --
