@@ -24,7 +24,6 @@ public class Validator
         if (dateToString == null || dateToString.trim().isEmpty() || dateToString.trim().equalsIgnoreCase("null")) {
             throw new IllegalArgumentException("Date cannot be null or empty");
         }
-
         try {
             LocalDate.parse(dateToString.trim(), DateTimeFormatter.ISO_LOCAL_DATE);
         } catch (DateTimeParseException e) {
