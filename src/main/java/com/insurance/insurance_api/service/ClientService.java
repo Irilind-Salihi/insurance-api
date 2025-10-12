@@ -81,7 +81,6 @@ public class ClientService {
             throw new IllegalArgumentException("At least one field must be provided in addtion to the client id to patch");
         }
 
-
         Client client = getClientById(clientPatchRequest.getId());
 
         if (clientPatchRequest.getName() != null) {

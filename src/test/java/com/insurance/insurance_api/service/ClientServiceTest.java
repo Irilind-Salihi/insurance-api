@@ -35,7 +35,7 @@ public class ClientServiceTest {
         clientService = new ClientService(personRepository, companyRepository, clientRepository, contractService);
     }
 
-    // ---------------getClientById-----------------------------+
+    // ---------------Get Client By Id Test-----------------------------+
     @Test
     void getClientByIdShouldReturnClientIfExists() {
         Client client = MockValue.mockClient1();
@@ -54,8 +54,7 @@ public class ClientServiceTest {
         assertThrows(EntityNotFoundException.class, () -> clientService.getClientById(1L));
     }
 
-    // --------------createPerson------------------------------+
-
+    // ---------------Create Person Test-----------------------------+
     @Test
     void createPersonShouldValidateAndSavePerson() {
         Person mockPerson = MockValue.mockPerson1();
@@ -72,8 +71,37 @@ public class ClientServiceTest {
         verify(personRepository).save(any(Person.class));
     }
 
-    // --------------createPerson------------------------------+
+    @Test
+    void createPersonShouldThrowExceptionIfEmailAlreadyExists() {
+        Person mockPerson = MockValue.mockPerson1();
+        when(clientRepository.existsByEmail(mockPerson.getEmail())).thenReturn(true);
 
+        assertThrows(IllegalArgumentException.class, () ->
+                clientService.createPerson(
+                        mockPerson.getName(),
+                        mockPerson.getPhone(),
+                        mockPerson.getEmail(),
+                        mockPerson.getBirthdate()
+                ));
+        verify(personRepository, never()).save(any(Person.class));
+    }
+
+    @Test
+    void createPersonShouldThrowExceptionIfPhoneAlreadyExists() {
+        Person mockPerson = MockValue.mockPerson1();
+        when(clientRepository.existsByEmail(mockPerson.getEmail())).thenReturn(true);
+
+        assertThrows(IllegalArgumentException.class, () ->
+                clientService.createPerson(
+                        mockPerson.getName(),
+                        mockPerson.getPhone(),
+                        mockPerson.getEmail(),
+                        mockPerson.getBirthdate()
+                ));
+        verify(personRepository, never()).save(any(Person.class));
+    }
+
+    // ---------------Create Company By Id Test-----------------------------+
     @Test
     void createCompanyShouldValidateAndSaveCompany() {
         Company mockCompany = MockValue.mockCompany1();
@@ -90,7 +118,37 @@ public class ClientServiceTest {
         verify(companyRepository).save(any(Company.class));
     }
 
-    // ---------------- patchClientById ----------------
+    @Test
+    void createCompanyShouldThrowExceptionIfEmailAlreadyExists() {
+        Company mockCompany = MockValue.mockCompany1();
+        when(clientRepository.existsByEmail(mockCompany.getEmail())).thenReturn(true);
+
+        assertThrows(IllegalArgumentException.class, () ->
+                clientService.createCompany(
+                        mockCompany.getName(),
+                        mockCompany.getPhone(),
+                        mockCompany.getEmail()
+                ));
+
+        verify(companyRepository, never()).save(any(Company.class));
+    }
+
+    @Test
+    void createCompanyShouldThrowExceptionIfPhoneAlreadyExists() {
+        Company mockCompany = MockValue.mockCompany1();
+        when(clientRepository.existsByPhone(mockCompany.getPhone())).thenReturn(true);
+
+        assertThrows(IllegalArgumentException.class, () ->
+                clientService.createCompany(
+                        mockCompany.getName(),
+                        mockCompany.getPhone(),
+                        mockCompany.getEmail()
+                ));
+
+        verify(companyRepository, never()).save(any(Company.class));
+    }
+
+    // ---------------Updating Client Test-----------------------------+
     @Test
     void patchClientByIdShouldUpdateFields() {
         Client client = MockValue.mockClient1();
@@ -108,9 +166,38 @@ public class ClientServiceTest {
         verify(clientRepository).save(client);
     }
 
+    @Test
+    void patchClientShouldThrowExceptionIfEmailAlreadyExists() {
+        Client mockClient = MockValue.mockClient1();
+
+
+        when(clientRepository.findById(1L)).thenReturn(Optional.of(mockClient));
+        when(clientRepository.existsByEmail(mockClient.getEmail())).thenReturn(true);
+
+        ClientPatchRequest request = new ClientPatchRequest();
+        request.setId(mockClient.getId());
+        request.setEmail(mockClient.getEmail());
+
+        assertThrows(IllegalArgumentException.class, () -> clientService.patchClientById(request));
+    }
 
     @Test
-    void patchClientByIdShouldThrowIfNoFieldsProvided() {
+    void patchClientShouldThrowExceptionIfPhoneAlreadyExists() {
+        Client mockClient = MockValue.mockClient1();
+
+
+        when(clientRepository.findById(1L)).thenReturn(Optional.of(mockClient));
+        when(clientRepository.existsByEmail(mockClient.getEmail())).thenReturn(true);
+
+        ClientPatchRequest request = new ClientPatchRequest();
+        request.setId(mockClient.getId());
+        request.setEmail(mockClient.getEmail());
+
+        assertThrows(IllegalArgumentException.class, () -> clientService.patchClientById(request));
+    }
+
+    @Test
+    void patchClientByIdShouldThrowExceptionIfNoFieldsProvided() {
         ClientPatchRequest request = new ClientPatchRequest();
         request.setId(1L);
 
@@ -118,7 +205,7 @@ public class ClientServiceTest {
     }
 
     @Test
-    void patchClientByIdShouldThrowIfClientNotFound() {
+    void patchClientByIdShouldThrowExceptionIfClientNotFound() {
         when(clientRepository.findById(1L)).thenReturn(Optional.empty());
 
         ClientPatchRequest request = new ClientPatchRequest();
@@ -128,7 +215,7 @@ public class ClientServiceTest {
         assertThrows(EntityNotFoundException.class, () -> clientService.patchClientById(request));
     }
 
-    // ---------------- deleteClientById ----------------
+    // ---------------Deleting Client Test-----------------------------+
     @Test
     void deleteClientByIdShouldCallContractServiceAndDelete() {
         Client client = MockValue.mockClient1();
@@ -141,7 +228,7 @@ public class ClientServiceTest {
     }
 
     @Test
-    void deleteClientByIdShouldThrowIfClientNotFound() {
+    void deleteClientByIdShouldThrowExceptionIfClientNotFound() {
         when(clientRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> clientService.deleteClientById(1L));
