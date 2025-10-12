@@ -134,15 +134,15 @@ DECLARE
     end_dt DATE;
 BEGIN
     -- ===============================
-    -- CLIENT_ID = 2 → 20000 rows, 90% ended, 10% mixed
+    -- CLIENT_ID = 2 → 20000 rows, 20% ended, 10% mixed
     -- ===============================
     FOR i IN 1..20000 LOOP
         contract_amount := 1000 + random() * 5000; -- random cost between 1000 and 6000
         start_dt := CURRENT_DATE - (365 + (random() * 365))::INT; -- start date 1-2 years ago
         update_dt := start_dt + (random() * 30)::INT; -- within 30 days of start
-        IF i <= 18000 THEN -- 90% ended
+        IF i <= 2000 THEN -- 10% ended
             end_dt := CURRENT_DATE - (random() * 120)::INT; -- ended up to 4 months ago
-        ELSE -- 10% mixed
+        ELSE -- 90% mixed
             IF random() < 0.5 THEN
                 end_dt := NULL;
             ELSE
@@ -212,14 +212,14 @@ INSERT INTO public.persons (birthdate, id) VALUES
 -- Name: clients_seq; Type: SEQUENCE SET; Schema: public; Owner: insurance_user
 --
 
-SELECT pg_catalog.setval('public.clients_seq', 51, true);
+SELECT pg_catalog.setval('public.clients_seq', 4, true);
 
 
 --
 -- Name: contracts_seq; Type: SEQUENCE SET; Schema: public; Owner: insurance_user
 --
 
-SELECT pg_catalog.setval('public.contracts_seq', 51, true);
+SELECT pg_catalog.setval('public.contracts_seq', 20055, true);
 
 
 --
