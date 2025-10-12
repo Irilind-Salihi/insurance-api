@@ -136,7 +136,7 @@ public class ClientServiceTest {
 
         clientService.deleteClientById(1L);
 
-        verify(contractService).endAllContractsForClient(client);
+        verify(contractService).endAllContractsForClient(client.getId());
         verify(clientRepository).delete(client);
     }
 

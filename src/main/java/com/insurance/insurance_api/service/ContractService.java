@@ -96,15 +96,8 @@ public class ContractService {
     }
 
 
-    public void endAllContractsForClient(Client client) {
-        LocalDate todayDate = LocalDate.now();
-
-        List<Contract> contracts = client.getContracts();
-        for (Contract contract : contracts) {
-            contract.setEndDate(todayDate);
-            contract.setClient(null);
-            contractRepository.save(contract);
-        }
+    public void endAllContractsForClient(Long clientId) {
+        contractRepository.endAllContractsForClient(clientId);
     }
 
 

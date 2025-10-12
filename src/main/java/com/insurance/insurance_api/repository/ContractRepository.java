@@ -1,7 +1,9 @@
 package com.insurance.insurance_api.repository;
 
 import com.insurance.insurance_api.entity.Contract;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -40,5 +42,12 @@ public interface ContractRepository extends JpaRepository<Contract,Long> {
       AND (c.endDate IS NULL OR c.endDate > CURRENT_DATE)
     """)
     BigDecimal sumActiveContractsForClient(@Param("clientId") Long clientId);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Contract c " +
+            "SET c.endDate = CURRENT_DATE, c.client = NULL " +
+            "WHERE c.client.id = :clientId")
+    void endAllContractsForClient(@Param("clientId") Long clientId);
 
 }

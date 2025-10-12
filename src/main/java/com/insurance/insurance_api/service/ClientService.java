@@ -97,7 +97,7 @@ public class ClientService {
     public void deleteClientById(Long clientId) {
         Client client = getClientById(clientId);
 
-        contractService.endAllContractsForClient(client);
+        contractService.endAllContractsForClient(clientId);
 
         clientRepository.delete(client);
     }
