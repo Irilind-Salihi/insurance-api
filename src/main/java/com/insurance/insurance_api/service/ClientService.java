@@ -10,6 +10,7 @@ import com.insurance.insurance_api.repository.PersonRepository;
 import com.insurance.insurance_api.utils.Utils;
 import com.insurance.insurance_api.utils.Validator;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -35,7 +36,7 @@ public class ClientService {
                 .orElseThrow(() -> new EntityNotFoundException("Client with id " + clientId + " not found"));
     }
 
-
+    @Transactional
     public Person createPerson(String name, String phone, String email, LocalDate birthdate) {
         Person person = new Person();
 
@@ -53,6 +54,7 @@ public class ClientService {
         return personRepository.save(person);
     }
 
+    @Transactional
     public Company createCompany(String name, String phone, String email ) {
         Company company = new Company();
 
@@ -66,12 +68,11 @@ public class ClientService {
         company.setPhone(phone);
         company.setCompanyIdentifier(identifier);
 
-
-
         return companyRepository.save(company);
 
     }
 
+    @Transactional
     public void patchClientById(ClientPatchRequest  clientPatchRequest) {
         if (clientPatchRequest.getName() == null && clientPatchRequest.getEmail() == null && clientPatchRequest.getPhone() == null) {
             throw new IllegalArgumentException("At least one field must be provided in addtion to the client id to patch");
@@ -94,6 +95,7 @@ public class ClientService {
         clientRepository.save(client);
     }
 
+    @Transactional
     public void deleteClientById(Long clientId) {
         Client client = getClientById(clientId);
 
