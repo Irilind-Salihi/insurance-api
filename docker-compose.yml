@@ -12,6 +12,7 @@ services:
       POSTGRES_DB: insurance_db
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      - ./src/main/resources/insurance_db_backup.sql:/docker-entrypoint-initdb.d/insurance_db_backup.sql
     restart: unless-stopped
 
   pgadmin:
