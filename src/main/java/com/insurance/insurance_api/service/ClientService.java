@@ -14,6 +14,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Service
 public class ClientService {
@@ -38,14 +39,14 @@ public class ClientService {
 
     @Transactional
     public Person createPerson(String name, String phone, String email, LocalDate birthdate) {
-        Person person = new Person();
-
+        checkUniqueEmail(email);
+        checkUniquePhone(phone);
         Validator.isValidName(name);
         Validator.isValidEmail(email);
         Validator.isValidPhoneNumber(phone);
         Validator.isValidISODate(birthdate);
 
-
+        Person person = new Person();
         person.setName(name);
         person.setEmail(email);
         person.setPhone(phone);
@@ -56,13 +57,15 @@ public class ClientService {
 
     @Transactional
     public Company createCompany(String name, String phone, String email ) {
-        Company company = new Company();
-
-        String identifier = Utils.generateCompanyIdentifier(name, companyRepository);
-
+        checkUniqueEmail(email);
+        checkUniquePhone(phone);
         Validator.isValidEmail(email);
         Validator.isValidPhoneNumber(phone);
 
+        String identifier = Utils.generateCompanyIdentifier(name, companyRepository);
+
+        Company company = new Company();
+        Validator.isValidName(name);
         company.setName(name);
         company.setEmail(email);
         company.setPhone(phone);
@@ -77,17 +80,27 @@ public class ClientService {
         if (clientPatchRequest.getName() == null && clientPatchRequest.getEmail() == null && clientPatchRequest.getPhone() == null) {
             throw new IllegalArgumentException("At least one field must be provided in addtion to the client id to patch");
         }
+
         Client client = getClientById(clientPatchRequest.getId());
 
         if (clientPatchRequest.getName() != null) {
+            Validator.isValidName(clientPatchRequest.getName());
             client.setName(clientPatchRequest.getName());
         }
 
         if (clientPatchRequest.getEmail() != null) {
+            if (Objects.equals(clientPatchRequest.getEmail(), client.getEmail())) {
+                throw new IllegalArgumentException("This is already you're current mail");
+            }
+            checkUniqueEmail(clientPatchRequest.getEmail());
             Validator.isValidEmail(clientPatchRequest.getEmail());
             client.setEmail(clientPatchRequest.getEmail());
         }
         if (clientPatchRequest.getPhone() != null) {
+            if (Objects.equals(clientPatchRequest.getPhone(), client.getPhone())) {
+                throw new IllegalArgumentException("This is already you're phone number");
+            }
+            checkUniquePhone(clientPatchRequest.getPhone());
             Validator.isValidPhoneNumber(clientPatchRequest.getPhone());
             client.setPhone(clientPatchRequest.getPhone());
         }
@@ -104,4 +117,17 @@ public class ClientService {
         clientRepository.delete(client);
     }
 
+
+    private void checkUniqueEmail(String email) {
+        if (email != null && clientRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("Email already used: " + email);
+        }
+    }
+
+
+    private void checkUniquePhone(String phone) {
+        if (phone != null && clientRepository.existsByPhone(phone)) {
+            throw new IllegalArgumentException("Phone number already used: " + phone);
+        }
+    }
 }

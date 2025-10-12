@@ -85,7 +85,7 @@ public class MockValue {
         contract.setId(1L);
         contract.setClient(mockClient1());
         contract.setCostAmount(new BigDecimal("500"));
-        contract.setStartDate(LocalDate.of(2025, 10, 1));
+        contract.setStartDate(LocalDate.of(2024, 10, 1));
         contract.setUpdateDate(LocalDate.of(2025, 10, 1));
         contract.setEndDate(null);
         return contract;
@@ -96,7 +96,7 @@ public class MockValue {
         contract.setId(2L);
         contract.setClient(mockClient1());
         contract.setCostAmount(new BigDecimal("1000"));
-        contract.setStartDate(LocalDate.of(2025, 9, 1));
+        contract.setStartDate(LocalDate.of(2023, 9, 1));
         contract.setUpdateDate(LocalDate.of(2025, 9, 1));
         contract.setEndDate(null);
         return contract;

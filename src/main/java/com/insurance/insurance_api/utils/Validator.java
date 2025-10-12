@@ -45,9 +45,10 @@ public class Validator
         }
     }
 
+
     public static void isValidPhoneNumber(String phone) {
         if (phone == null || phone.isEmpty()) {
-            throw new IllegalArgumentException("Phone cannot be null or empty");
+            throw new IllegalArgumentException("Phone number cannot be null or empty");
         } else if (!PHONE_PATTERN.matcher(phone).matches()) {
             throw new IllegalArgumentException("Phone number isn't valid (Use country indicator)");
         }

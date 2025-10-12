@@ -33,7 +33,7 @@ public class ContractServiceTest {
         contractService = new ContractService(contractRepository, clientRepository);
     }
 
-    // ---------------- getContractById ----------------
+    // ---------------Get Contract By Id Test-----------------------------+
     @Test
     void getContractByIdShouldReturnContract() {
         Contract mockContract = MockValue.mockContract1();
@@ -53,7 +53,7 @@ public class ContractServiceTest {
         verify(contractRepository).findById(1L);
     }
 
-    // ---------------- getActiveContractByClientId ----------------
+    // ---------------Get Active Contract By Id Test-----------------------------+
     @Test
     void getActiveContractByClientIdShouldReturnContracts() {
         Client client = MockValue.mockClient1();
@@ -77,7 +77,33 @@ public class ContractServiceTest {
         verify(clientRepository).findById(1L);
     }
 
-    // ---------------- sumActiveContractsForClient ----------------
+    // ---------------Get Active Contract Filtered By Update Date Test-----------------------------+
+    @Test
+    void getActiveContractByClientIdAndUpdateDateShouldReturnContracts() {
+        Client client = MockValue.mockClient1();
+        LocalDate updateDate = LocalDate.of(2025, 10, 12);
+
+        when(clientRepository.findById(1L)).thenReturn(Optional.of(client));
+
+        List<Contract> contracts = Arrays.asList(MockValue.mockContract1(), MockValue.mockContract2());
+        when(contractRepository.findActiveContractsByClientIdAndUpdateDate(1L, updateDate)).thenReturn(contracts);
+
+        List<Contract> result = contractService.getActiveContractByClientIdAndUpdateDate(1L, updateDate);
+
+        // Assertions
+        assertEquals(2, result.size());
+    }
+
+    @Test
+    void getActiveContractByClientIdAndUpdateDateShouldThrowExceptionWhenClientNotFound() {
+        when(clientRepository.findById(1L)).thenReturn(Optional.empty());
+        LocalDate updateDate = LocalDate.of(2025, 10, 12);
+
+        assertThrows(EntityNotFoundException.class, () -> contractService.getActiveContractByClientIdAndUpdateDate(1L, updateDate));
+        verify(clientRepository).findById(1L);
+    }
+
+    // ---------------- Get Sum Of Al Active Contract Test ----------------
     @Test
     void sumActiveContractsForClientShouldReturnSum() {
         Client client = MockValue.mockClient1();
@@ -91,7 +117,7 @@ public class ContractServiceTest {
         verify(contractRepository).sumActiveContractsForClient(1L);
     }
 
-    // ---------------- createContract ----------------
+    // ---------------- Create Contract Test ----------------
     @Test
     void createContractShouldReturnContract() {
         Client client = MockValue.mockClient1();
@@ -110,7 +136,7 @@ public class ContractServiceTest {
         verify(contractRepository).save(any(Contract.class));
     }
 
-    // ---------------- updateContract ----------------
+    // ---------------- Update Contract Test ----------------
     @Test
     void updateContractShouldUpdateContract() {
         Contract contract = MockValue.mockContract1();
