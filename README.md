@@ -1,4 +1,8 @@
-# Architecture & Design
+# Insurance API Project
+
+---
+
+# I. Architecture & Design
 
 The application is built with:
 
@@ -28,13 +32,15 @@ The application is built with:
 
 * Data is stored in PostgreSQL using a Docker volume to ensure it **persists even if the application crashes or is restarted**.
 
-## Running Locally
+---
+
+# II. Running Locally
 
 **Requirements before running:**
 
 * All required ports (5432 for PostgreSQL, 8080 for the API) must be free.
 * **Docker** and **Docker Compose** must be installed on the computer.
-* **Postman** is optional but recommended to test the API.
+* **Postman** is optional but recommended to test the API. A **Postman collection** is available in the repository and contains requests for both the **local** and **dist** environments.
 * Most tests were performed on **Windows 11**, but the project also works on Linux distributions like Ubuntu (you may need to use `chmod` on some files or adjust file permissions).
 
 To run the project on my machine, I just:
@@ -57,21 +63,25 @@ docker-compose down
 
 This approach meets the requirement that the project can be run locally easily without additional setup.
 
-## Proof the API Works
+---
 
-The project is constantly running on a server and is fully reachable using the **Postman collection** in the `dist` environment. The collection is set up to execute every API request, covering all functionality.
+# III. Proof the API Works
+
+The project is constantly running on a server and is fully reachable using the **Postman collection** (available in the repository) in the `dist` environment. The collection is set up to execute every API request, covering all functionality.
 
 ### Example API Requests
 
 Here are three example endpoints with screenshots from the Postman collection:
 
-1. **Create a Person**  
+1. **Create a Person**
+
    ![Postman Create Client](PostmanCollectionCreatePerson.png)
 
-2. **Get a client by its id**  
+2. **Get a client by its id**
+
    ![Postman Create Contract](PostmanCollectionGetClient.png)
 
-3. **Get Sum of Active Contract Costs**  
+3. **Get Sum of Active Contract Costs**
    ![Postman Sum Active Contracts](PostmanCollectionGetActiveContractSumForClient.png)
 
 These examples demonstrate that the API works for creating a person, returning client info, and performing aggregation queries.
@@ -89,18 +99,22 @@ The project includes an **auto-generated dataset** with 4 users:
 
 Screenshots of example database queries in PostgreSQL:
 
-1. **Query All Tables**  
+1. **Query All Tables**
+
    ![Postgres Clients](PostgresDbAllTable.png)
 
-2. **Query All Client**  
+2. **Query All Client**
+
    ![Postgres Client Contracts](PostgressDbClientList.png)
 
-3. **Query All Contracts for a Client**  
+3. **Query All Contracts for a Client**
+
    ![Postgres Sum Active Contracts](PostgressDbAllContractForClient.png)
 
 These screenshots show the dataset structure and verify that the queries used by the API return the expected results, even with large datasets.
 
 ---
 
-Additionally, a **Swagger UI** is available at http://localhost:8080/swagger-ui/index.html#/ (when project running), showing required fields for each request.  
+Additionally, a **Swagger UI** is available at [http://localhost:8080/swagger-ui/index.html#/](http://localhost:8080/swagger-ui/index.html#/) (when project running), showing required fields for each request.
+
 Finally, I implemented **unit tests** to validate key service and repository logic, ensuring the API behaves consistently with the application requirements.
