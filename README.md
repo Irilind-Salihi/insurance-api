@@ -40,7 +40,8 @@ The application is built with:
 
 * All required ports (5432 for PostgreSQL, 8080 for the API) must be free.
 * **Docker** and **Docker Compose** must be installed on the computer.
-* **Postman** is optional but recommended to test the API. A **Postman collection** is available in the repository and contains requests for both the **local** and **dist** environments.
+* **Postman** is optional but recommended to test the API.
+* A **Postman collection** is available in the repository.
 * Most tests were performed on **Windows 11**, but the project also works on Linux distributions like Ubuntu (you may need to use `chmod` on some files or adjust file permissions).
 
 To run the project on my machine, I just:
@@ -67,8 +68,9 @@ This approach meets the requirement that the project can be run locally easily w
 
 # III. Proof the API Works
 
-The project is constantly running on a server and is fully reachable using the **Postman collection** (available in the repository) in the `dist` environment. The collection is set up to execute every API request, covering all functionality.
+The project is constantly running on a server and is fully reachable using the **Postman collection**
 
+To acces it import the postman collection and replace the http://localhost:8080/api/ with the server ip http://146.59.147.79:8080/api/
 ### Example API Requests
 
 Here are three example endpoints with screenshots from the Postman collection:
