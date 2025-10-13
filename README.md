@@ -102,6 +102,5 @@ These screenshots show the dataset structure and verify that the queries used by
 
 ---
 
-Additionally, a **Swagger UI** is available at the provided link, showing required fields for each request.
-
+Additionally, a **Swagger UI** is available at http://localhost:8080/swagger-ui/index.html#/ (when project running), showing required fields for each request.  
 Finally, I implemented **unit tests** to validate key service and repository logic, ensuring the API behaves consistently with the application requirements.
