@@ -12,6 +12,46 @@
 			"name": "Clients",
 			"item": [
 				{
+					"name": "Get Clint by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{apiUrl}}client/2",
+							"host": [
+								"{{apiUrl}}client"
+							],
+							"path": [
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch Client",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"client_id\":1,\r\n    \"name\":\"Jason Reave\",\r\n    \"phone\":\"+416995599\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{apiUrl}}client",
+							"host": [
+								"{{apiUrl}}client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Create Person",
 					"request": {
 						"method": "POST",
@@ -36,12 +76,173 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Create Company",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Volvo\",\r\n    \"email\":\"rh2@gvolvo.com\",\r\n    \"phone\":\"+416995599\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{apiUrl}}client/company",
+							"host": [
+								"{{apiUrl}}client"
+							],
+							"path": [
+								"company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete client",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{apiUrl}}client/2",
+							"host": [
+								"{{apiUrl}}client"
+							],
+							"path": [
+								"2"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
 		{
 			"name": "Contract",
-			"item": []
+			"item": [
+				{
+					"name": "Get active contract for client",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{apiUrl}}contract/active/2",
+							"host": [
+								"{{apiUrl}}contract"
+							],
+							"path": [
+								"active",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get active contract for client filtered by update",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{apiUrl}}contract/active/2/filtered?update_date=2024-06-05",
+							"host": [
+								"{{apiUrl}}contract"
+							],
+							"path": [
+								"active",
+								"2",
+								"filtered"
+							],
+							"query": [
+								{
+									"key": "update_date",
+									"value": "2024-06-05"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get active contract sum",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{apiUrl}}contract/active/2/sum",
+							"host": [
+								"{{apiUrl}}contract"
+							],
+							"path": [
+								"active",
+								"2",
+								"sum"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update contract amount",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"contract_id\":20000,\r\n    \"new_amount\":15.06\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{apiUrl}}contract",
+							"host": [
+								"{{apiUrl}}contract"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new contract",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"client_id\": 1,\r\n  //\"start_date\": \"2025-10-13\",\r\n  //\"end_date\": \"2025-10-13\",\r\n  \"cost_amount\":96.05\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{apiUrl}}contract",
+							"host": [
+								"{{apiUrl}}contract"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
